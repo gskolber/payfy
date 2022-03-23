@@ -1,4 +1,8 @@
 defmodule PayfyWeb.Telemetry do
+  @moduledoc """
+  Telemetry is a module that collects and reports telemetry data.
+  """
+
   use Supervisor
   import Telemetry.Metrics
 
