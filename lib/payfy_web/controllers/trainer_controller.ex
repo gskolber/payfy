@@ -4,8 +4,6 @@ defmodule PayfyWeb.Controllers.TrainerController do
   alias Payfy.Trainer
 
   def create(conn, %{"user" => user}) do
-    IO.inspect(user)
-
     case Trainer.create_trainer(user) do
       {:ok, user} ->
         json(

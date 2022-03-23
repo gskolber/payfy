@@ -50,7 +50,8 @@ defmodule Payfy.MixProject do
       {:tesla, "~> 1.4"},
       {:hackney, "~> 1.17"},
       {:comeonin, "~> 4.0"},
-      {:bcrypt_elixir, "~> 1.0"}
+      {:bcrypt_elixir, "~> 1.0"},
+      {:guardian, "~> 2.0"}
     ]
   end
 

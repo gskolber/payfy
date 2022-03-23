@@ -7,6 +7,8 @@ defmodule Payfy.Trainer do
   alias Payfy.Trainers.Pokemon
   alias Payfy.Trainers.Trainer
   alias Payfy.Repo
+  alias Comeonin.Bcrypt
+  alias Payfy.Guardian
 
   def assign_pokemon(name, user) do
     PokemonService.get_pokemon(name)
@@ -24,5 +26,19 @@ defmodule Payfy.Trainer do
 
   def create_trainer(fields) do
     Trainer.new_trainer_changeset(fields) |> Repo.insert()
+  end
+
+  def get_trainer(id) do
+    Repo.get(Trainer, id)
+  end
+
+  def login(username, password) do
+    case Repo.get_by(Trainer, username: username) |> Bcrypt.check_pass(password) do
+      {:ok, user} ->
+        {:ok, token, _} = Guardian.encode_and_sign(user)
+        token
+      _ ->
+        {:error, :not_found}
+    end
   end
 end

@@ -19,6 +19,11 @@ config :payfy, PayfyWeb.Endpoint,
 
 # Configures Tesla as Http Service
 config :tesla, adapter: Tesla.Adapter.Httpc
+
+
+config :payfy, Payfy.Guardian,
+       issuer: "payfy",
+       secret_key: "TV6aZxouQQHlMfNB6Fx16awyzWc3uol4w1g2T9O5cdUlRokB0g03vT/YbQfGmaZj"
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails

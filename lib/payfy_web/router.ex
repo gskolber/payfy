@@ -9,6 +9,7 @@ defmodule PayfyWeb.Router do
     pipe_through :api
 
     post "/register", TrainerController, :create
+
   end
 
   # Enables LiveDashboard only for development
