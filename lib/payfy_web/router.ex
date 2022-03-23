@@ -5,8 +5,10 @@ defmodule PayfyWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", PayfyWeb do
+  scope "/api", PayfyWeb.Controllers do
     pipe_through :api
+
+    post "/register", TrainerController, :create
   end
 
   # Enables LiveDashboard only for development

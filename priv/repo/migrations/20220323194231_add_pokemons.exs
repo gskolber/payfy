@@ -5,6 +5,7 @@ defmodule Payfy.Repo.Migrations.AddPokemons do
     create table(:pokemon) do
       add :external_id, :integer
       add :name, :string
+      timestamps()
     end
   end
 end
