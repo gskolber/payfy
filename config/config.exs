@@ -17,7 +17,6 @@ config :payfy, PayfyWeb.Endpoint,
   pubsub_server: Payfy.PubSub,
   live_view: [signing_salt: "rIDZ8pyS"]
 
-
 # Configures Tesla as Http Service
 config :tesla, adapter: Tesla.Adapter.Httpc
 # Configures the mailer

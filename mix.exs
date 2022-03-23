@@ -48,7 +48,7 @@ defmodule Payfy.MixProject do
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:oban, "~> 2.11"},
       {:tesla, "~> 1.4"},
-      {:hackney, "~> 1.17"},
+      {:hackney, "~> 1.17"}
     ]
   end
 
