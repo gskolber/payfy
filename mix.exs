@@ -27,8 +27,7 @@ defmodule Payfy.MixProject do
   def application do
     [
       mod: {Payfy.Application, []},
-      extra_applications: [:logger, :runtime_tools],
-      applications: [:ex_machina]
+      extra_applications: [:logger, :runtime_tools, :ex_machina]
     ]
   end
 
@@ -61,7 +60,8 @@ defmodule Payfy.MixProject do
       {:bcrypt_elixir, "~> 1.0"},
       {:guardian, "~> 2.0"},
       {:excoveralls, "~> 0.10", only: :test},
-      {:ex_machina, "~> 2.7.0"}
+      {:ex_machina, "~> 2.7.0"},
+      {:assertions, "~> 0.10", only: :test}
     ]
   end
 

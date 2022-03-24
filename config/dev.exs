@@ -3,7 +3,7 @@ import Config
 # Configure your database
 config :payfy, Payfy.Repo,
   username: System.get_env("DB_USER") || "postgres",
-  password: System.get_env("DB_PASS" || "postgres"),
+  password: System.get_env("DB_PASS") || "postgres",
   database: "payfy_dev",
   hostname: "localhost",
   show_sensitive_data_on_connection_error: true,
