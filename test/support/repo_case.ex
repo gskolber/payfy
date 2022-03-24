@@ -1,4 +1,9 @@
 defmodule Payfy.RepoCase do
+
+  @moduledoc """
+  This module prepares a RepoCase for testing.
+  """
+
   use ExUnit.CaseTemplate
 
   using do

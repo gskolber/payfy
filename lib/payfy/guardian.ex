@@ -3,6 +3,12 @@ defmodule Payfy.Guardian do
 
   alias Payfy.Trainer
 
+  @moduledoc """
+  Guardian library.
+
+  Used to encrypt and decrypt passwords and generate bearer token.
+  """
+
   def subject_for_token(%{id: id}, _claims) do
     # You can use any value for the subject of your token but
     # it should be useful in retrieving the resource later, see

@@ -10,6 +10,10 @@ defmodule Payfy.Trainer do
   alias Comeonin.Bcrypt
   alias Payfy.Guardian
 
+  @doc """
+  Used to claim a Pokemon. With this function we can claim a Pokemon by id or name
+  using PokeApi
+  """
   def claim_pokemon(name, trainer) do
     case PokemonService.get_pokemon(name) do
       {:ok, pokemon} ->
@@ -21,6 +25,9 @@ defmodule Payfy.Trainer do
         update_trainer = Repo.preload(trainer, :pokemons)
 
         Trainer.add_pokemon_changeset(update_trainer, new_pokemon) |> Repo.update()
+
+      {:error, :not_found} ->
+        {:error, :not_found}
     end
   end
 
@@ -39,6 +46,10 @@ defmodule Payfy.Trainer do
     }
   end
 
+  @doc """
+  Return the list of pokemons of a trainer
+  """
+
   def my_pokemons(trainer) do
     trainer =
       trainer
@@ -47,14 +58,24 @@ defmodule Payfy.Trainer do
     trainer.pokemons
   end
 
+  @doc """
+  Create a Trainer login and password
+  """
   def create_trainer(fields) do
     Trainer.new_trainer_changeset(fields) |> Repo.insert()
   end
+
+  @doc """
+  Return a trainer by id
+  """
 
   def get_trainer(id) do
     Repo.get(Trainer, id)
   end
 
+  @doc """
+  Validate a user and generate a token
+  """
   def login(username, password) do
     case Repo.get_by(Trainer, username: username) |> Bcrypt.check_pass(password) do
       {:ok, user} ->
@@ -66,6 +87,9 @@ defmodule Payfy.Trainer do
     end
   end
 
+  @doc """
+  Add hungry++ in each pokemon of the list
+  """
   def update_hungry(list_of_pokemons) do
     list_of_pokemons
     |> Enum.each(fn %{id: id} ->
@@ -75,6 +99,9 @@ defmodule Payfy.Trainer do
     end)
   end
 
+  @doc """
+  Feed a pokemon. This function will reduce -20 hungry to the pokemon
+  """
   def feed_pokemon(pokemon_id, trainer) do
     pokemon = Repo.get(Pokemon, pokemon_id)
 
@@ -103,6 +130,9 @@ defmodule Payfy.Trainer do
     end
   end
 
+  @doc """
+  Used to search a random pokemon
+  """
   def search_pokemon(trainer) do
     {:ok, number_of_pokemons} = PokemonService.get_number_of_pokemons()
     pokemon = Enum.random(0..number_of_pokemons)

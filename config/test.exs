@@ -20,6 +20,8 @@ config :payfy, PayfyWeb.Endpoint,
   secret_key_base: "H6INBzV3RC47T5SS3gNnucRUcJCz91fQhN+aTm7k2pL9XmCow9AB2nHxN2GH1wc+",
   server: false
 
+config :tesla, adapter: Tesla.Mock
+
 # In test we don't send emails.
 config :payfy, Payfy.Mailer, adapter: Swoosh.Adapters.Test
 

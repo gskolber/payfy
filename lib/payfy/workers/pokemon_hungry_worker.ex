@@ -4,6 +4,10 @@ defmodule Payfy.Workers.PokemonHungryWorker do
   alias Payfy.Repo
   alias Payfy.Trainer
 
+  @moduledoc """
+  This module is a cron job that updates every minute the hungry of pokemons.
+  """
+
   @impl Oban.Worker
   def perform(_job) do
     query =
