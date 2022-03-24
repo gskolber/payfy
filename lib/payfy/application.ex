@@ -15,7 +15,8 @@ defmodule Payfy.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Payfy.PubSub},
       # Start the Endpoint (http/https)
-      PayfyWeb.Endpoint
+      PayfyWeb.Endpoint,
+      {Oban, oban_config()}
       # Start a worker by calling: Payfy.Worker.start_link(arg)
       # {Payfy.Worker, arg}
     ]
@@ -24,6 +25,10 @@ defmodule Payfy.Application do
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: Payfy.Supervisor]
     Supervisor.start_link(children, opts)
+  end
+
+  defp oban_config do
+    Application.fetch_env!(:payfy, Oban)
   end
 
   # Tell Phoenix to update the endpoint configuration

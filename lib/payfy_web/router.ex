@@ -5,10 +5,26 @@ defmodule PayfyWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", PayfyWeb.Controllers do
+  pipeline :maybe_browser_auth do
+    plug(Guardian.Plug.Pipeline, module: Payfy.Guardian)
+    plug(Guardian.Plug.VerifySession)
+    plug(Guardian.Plug.VerifyHeader, realm: "Bearer")
+    plug(Guardian.Plug.LoadResource)
+  end
+
+  scope "/api", PayfyWeb do
     pipe_through :api
 
-    post "/register", TrainerController, :create
+    post "/register", Controllers.TrainerController, :create
+    post "/login", Controllers.TrainerController, :login
+
+    scope "/auth", Controllers do
+      pipe_through [:maybe_browser_auth]
+
+      post "/claim/:pokemon", TrainerController, :claim_pokemon
+      post "/feed/:id_pokemon", TrainerController, :feed_pokemon
+      get "/my_pokemons", TrainerController, :my_pokemons
+    end
   end
 
   # Enables LiveDashboard only for development

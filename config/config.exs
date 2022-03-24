@@ -10,6 +10,17 @@ import Config
 config :payfy,
   ecto_repos: [Payfy.Repo]
 
+config :payfy, Oban,
+  repo: Payfy.Repo,
+  plugins: [
+    Oban.Plugins.Pruner,
+    {Oban.Plugins.Cron,
+     crontab: [
+       {"* * * * *", Payfy.Workers.PokemonHungryWorker}
+     ]}
+  ],
+  queues: [default: 10, events: 50, media: 20]
+
 # Configures the endpoint
 config :payfy, PayfyWeb.Endpoint,
   url: [host: "localhost"],

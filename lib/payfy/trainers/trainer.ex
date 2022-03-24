@@ -8,11 +8,11 @@ defmodule Payfy.Trainers.Trainer do
   alias Payfy.Trainers.Pokemon
   alias Comeonin.Bcrypt
 
-  @derive {Jason.Encoder, only: [:username]}
+  @derive {Jason.Encoder, only: [:username, :pokemons]}
   schema "trainer" do
     field :username, :string
     field :encrypted_password, :string
-    many_to_many :pokemons, Pokemon, join_through: "trainer_pokemons"
+    has_many :pokemons, Pokemon
     timestamps()
   end
 
