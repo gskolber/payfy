@@ -74,25 +74,22 @@ defmodule PayfyWeb.Controllers.TrainerController do
     {:ok, pokemon, message} = Trainer.feed_pokemon(pokemon_id, trainer)
 
     conn
-    |> json(
-      %{
-        "status" => :ok,
-        "message" => message,
-        "data" => pokemon
-      }
-    )
+    |> json(%{
+      "status" => :ok,
+      "message" => message,
+      "data" => pokemon
+    })
   end
 
   def my_pokemons(conn, _) do
     trainer = Guardian.Plug.current_resource(conn)
     pokemons = Trainer.my_pokemons(trainer)
+
     conn
-    |> json(
-      %{
-        "status" => :ok,
-        "data" => pokemons
-      }
-    )
+    |> json(%{
+      "status" => :ok,
+      "data" => pokemons
+    })
   end
 
   def search_pokemon(conn, _) do
@@ -101,6 +98,7 @@ defmodule PayfyWeb.Controllers.TrainerController do
     case Trainer.search_pokemon(trainer) do
       {:ok, trainer} ->
         searched_pokemon = List.first(trainer.pokemons)
+
         json(
           conn,
           %{
@@ -120,5 +118,4 @@ defmodule PayfyWeb.Controllers.TrainerController do
         )
     end
   end
-
 end

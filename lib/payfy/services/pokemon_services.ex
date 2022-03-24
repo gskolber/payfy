@@ -29,5 +29,4 @@ defmodule Payfy.Services.PokemonService do
       _ -> {:error, :unknown}
     end
   end
-
 end

@@ -79,16 +79,14 @@ defmodule Payfy.Trainer do
     pokemon = Repo.get(Pokemon, pokemon_id)
 
     if trainer_is_owner?(trainer, pokemon) do
-      {:ok, pokemon} = Pokemon.feed_pokemon_changeset(pokemon)
-      |> Repo.update()
+      {:ok, pokemon} =
+        Pokemon.feed_pokemon_changeset(pokemon)
+        |> Repo.update()
 
-        {:ok, pokemon, hungry_message(pokemon)}
-
-
+      {:ok, pokemon, hungry_message(pokemon)}
     else
       {:error, :not_found}
     end
-
   end
 
   defp trainer_is_owner?(trainer, pokemon) do
@@ -99,6 +97,7 @@ defmodule Payfy.Trainer do
     case pokemon.status do
       "healthy" ->
         "Thank you for feeding me senpai. Pikapi"
+
       "fainted" ->
         "Does mom in heaven have bread? and fainted out..."
     end
