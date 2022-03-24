@@ -23,4 +23,10 @@ defmodule Payfy.Trainers.Trainer do
     |> validate_required([:username, :encrypted_password])
     |> update_change(:encrypted_password, &Bcrypt.hashpwsalt/1)
   end
+
+  def add_pokemon_changeset(trainer, pokemon) do
+    trainer
+    |> change()
+    |> put_assoc(:pokemons, [pokemon | trainer.pokemons])
+  end
 end

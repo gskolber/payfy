@@ -11,9 +11,9 @@ defmodule Payfy.Services.PokemonService do
   @success_status 200
 
   def get_pokemon(name) do
-    with {:ok, response} <- get("pokemon/#{name}"),
+    with {:ok, response} <- get("/pokemon/#{String.downcase(name)}"),
          @success_status <- response.status do
-      Map.take(response.body, ["id", "name", "types"])
+      {:ok, Map.take(response.body, ["id", "name"])}
     else
       404 -> {:error, :not_found}
     end

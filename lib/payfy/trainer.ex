@@ -10,17 +10,35 @@ defmodule Payfy.Trainer do
   alias Comeonin.Bcrypt
   alias Payfy.Guardian
 
-  def assign_pokemon(name, user) do
-    PokemonService.get_pokemon(name)
-    |> normalize_pokemon()
-    |> Pokemon.new_pokemon_changeset()
+
+  def claim_pokemon(name, trainer) do
+    case PokemonService.get_pokemon(name) do
+      {:ok, pokemon} ->
+        new_pokemon = pokemon
+        |> normalize_pokemon()
+        |> check_if_pokemon_exists
+
+        update_trainer = Repo.preload(trainer, :pokemons)
+
+      Trainer.add_pokemon_changeset(update_trainer, new_pokemon) |> Repo.update()
+    end
+  end
+
+  defp check_if_pokemon_exists(pokemon) do
+    case Repo.get_by(Pokemon, external_id: pokemon.external_id) do
+      nil ->
+        {:ok, new_pokemon} = Pokemon.new_pokemon_changeset(%Pokemon{}, pokemon)
+        |> Repo.insert()
+        new_pokemon
+      pokemon ->
+        pokemon
+    end
   end
 
   defp normalize_pokemon(pokemon) do
     %{
       external_id: pokemon["id"],
-      name: pokemon["name"],
-      types: pokemon["types"]
+      name: pokemon["name"]
     }
   end
 
@@ -37,6 +55,7 @@ defmodule Payfy.Trainer do
       {:ok, user} ->
         {:ok, token, _} = Guardian.encode_and_sign(user)
         token
+
       _ ->
         {:error, :not_found}
     end
