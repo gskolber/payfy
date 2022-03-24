@@ -16,6 +16,18 @@ defmodule Payfy.Services.PokemonService do
       {:ok, Map.take(response.body, ["id", "name"])}
     else
       404 -> {:error, :not_found}
+      _ -> {:error, :unknown}
     end
   end
+
+  def get_number_of_pokemons() do
+    with {:ok, response} <- get("/pokemon/"),
+         @success_status <- response.status do
+      {:ok, response.body["count"]}
+    else
+      404 -> {:error, :not_found}
+      _ -> {:error, :unknown}
+    end
+  end
+
 end

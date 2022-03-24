@@ -94,4 +94,31 @@ defmodule PayfyWeb.Controllers.TrainerController do
       }
     )
   end
+
+  def search_pokemon(conn, _) do
+    trainer = Guardian.Plug.current_resource(conn)
+
+    case Trainer.search_pokemon(trainer) do
+      {:ok, trainer} ->
+        searched_pokemon = List.first(trainer.pokemons)
+        json(
+          conn,
+          %{
+            "status" => :ok,
+            "message" => "You find a wild #{searched_pokemon.name}",
+            "data" => searched_pokemon
+          }
+        )
+
+      {:error, error} ->
+        json(
+          conn,
+          %{
+            "status" => :error,
+            "error" => error
+          }
+        )
+    end
+  end
+
 end

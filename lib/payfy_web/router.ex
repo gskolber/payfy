@@ -24,6 +24,7 @@ defmodule PayfyWeb.Router do
       post "/claim/:pokemon", TrainerController, :claim_pokemon
       post "/feed/:id_pokemon", TrainerController, :feed_pokemon
       get "/my_pokemons", TrainerController, :my_pokemons
+      get "/search", TrainerController, :search_pokemon
     end
   end
 

@@ -103,4 +103,10 @@ defmodule Payfy.Trainer do
         "Does mom in heaven have bread? and fainted out..."
     end
   end
+
+  def search_pokemon(trainer) do
+    {:ok, number_of_pokemons} = PokemonService.get_number_of_pokemons()
+    pokemon = Enum.random(0..number_of_pokemons)
+    claim_pokemon(Integer.to_string(pokemon), trainer)
+  end
 end
