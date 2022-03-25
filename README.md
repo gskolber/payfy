@@ -1,4 +1,4 @@
-# Payfy
+# Payfy Pokemon 
 
 To start your Phoenix server:
 
