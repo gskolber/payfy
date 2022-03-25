@@ -62,7 +62,13 @@ defmodule Payfy.Trainer do
   Create a Trainer login and password
   """
   def create_trainer(fields) do
-    Trainer.new_trainer_changeset(fields) |> Repo.insert()
+    case Trainer.new_trainer_changeset(fields) |> Repo.insert() do
+      {:ok, trainer} ->
+        {:ok, Repo.preload(trainer, :pokemons)}
+
+      {:error, changeset} ->
+        {:error, changeset}
+    end
   end
 
   @doc """
@@ -105,14 +111,16 @@ defmodule Payfy.Trainer do
   def feed_pokemon(pokemon_id, trainer) do
     pokemon = Repo.get(Pokemon, pokemon_id)
 
-    if trainer_is_owner?(trainer, pokemon) do
+    with true <- not is_nil(pokemon),
+         true <- trainer_is_owner?(trainer, pokemon) do
       {:ok, pokemon} =
         Pokemon.feed_pokemon_changeset(pokemon)
         |> Repo.update()
 
       {:ok, pokemon, hungry_message(pokemon)}
     else
-      {:error, :not_found}
+      _ ->
+        {:error, :not_found}
     end
   end
 

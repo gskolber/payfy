@@ -7,7 +7,6 @@ defmodule Payfy.Trainers.Pokemon do
   import Ecto.Changeset
   alias Payfy.Trainers.Trainer
 
-  @derive {Jason.Encoder, except: [:external_id, :__meta__, :trainer]}
   schema "pokemon" do
     field :external_id, :integer
     field :name, :string

@@ -15,14 +15,14 @@ defmodule PayfyWeb.Router do
   scope "/api", PayfyWeb do
     pipe_through :api
 
-    post "/register", Controllers.TrainerController, :create
-    post "/login", Controllers.TrainerController, :login
+    post "/register", TrainerController, :create
+    post "/login", TrainerController, :login
 
-    scope "/auth", Controllers do
+    scope "/auth" do
       pipe_through [:maybe_browser_auth]
 
       post "/claim/:pokemon", TrainerController, :claim_pokemon
-      post "/feed/:id_pokemon", TrainerController, :feed_pokemon
+      patch "/feed/:id_pokemon", TrainerController, :feed_pokemon
       get "/my_pokemons", TrainerController, :my_pokemons
       get "/search", TrainerController, :search_pokemon
     end

@@ -30,4 +30,18 @@ defmodule PayfyWeb.ErrorHelpers do
       Gettext.dgettext(PayfyWeb.Gettext, "errors", msg, opts)
     end
   end
+
+  def translate_errors(changeset) do
+    for result_error <- changeset.errors do
+      {field_name, ecto_error} = result_error
+      {_error_message, ecto_validation} = ecto_error
+      [ecto_validation_message | _ecto_validation_tail] = ecto_validation
+      ecto_validation_message = Kernel.inspect(ecto_validation_message)
+
+      Jason.encode!(%{
+        error: "invalid field value",
+        field: %{field_name: field_name, error_message: ecto_validation_message}
+      })
+    end
+  end
 end

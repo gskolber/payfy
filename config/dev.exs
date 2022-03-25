@@ -6,6 +6,7 @@ config :payfy, Payfy.Repo,
   password: System.get_env("DB_PASS") || "postgres",
   database: "payfy_dev",
   hostname: "localhost",
+  log: false,
   show_sensitive_data_on_connection_error: true,
   pool_size: 10
 

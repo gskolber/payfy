@@ -1,27 +1,26 @@
-defmodule PayfyWeb.Controllers.TrainerController do
+defmodule PayfyWeb.TrainerController do
   use PayfyWeb, :controller
 
+  alias PayfyWeb.ErrorHelpers
   alias Payfy.Trainer
 
   def create(conn, %{"user" => user}) do
     case Trainer.create_trainer(user) do
       {:ok, user} ->
-        json(
-          conn,
-          %{
-            "status" => :ok,
-            "user" => user
-          }
-        )
+        conn
+        |> put_resp_content_type("application/json")
+        |> put_status(:ok)
+        |> render("show.json", %{trainer: user})
 
       {:error, error} ->
-        json(
-          conn,
-          %{
-            "status" => :error,
-            "error" => error
+        conn
+        |> put_status(400)
+        |> json(%{
+          data: %{
+            status: "error",
+            error: ErrorHelpers.translate_errors(error)
           }
-        )
+        })
     end
   end
 
@@ -37,6 +36,7 @@ defmodule PayfyWeb.Controllers.TrainerController do
         Process.sleep(1000)
 
         conn
+        |> put_status(401)
         |> json(%{
           "status" => :error,
           "error" => :user_not_found
@@ -48,37 +48,44 @@ defmodule PayfyWeb.Controllers.TrainerController do
     trainer = Guardian.Plug.current_resource(conn)
 
     case Trainer.claim_pokemon(pokemon, trainer) do
-      {:ok, pokemon} ->
-        json(
-          conn,
-          %{
-            "status" => :ok,
-            "message" => "Pokemon claimed",
-            "data" => pokemon
-          }
-        )
+      {:ok, trainer} ->
+        last_claim = List.first(trainer.pokemons)
 
-      {:error, error} ->
-        json(
-          conn,
-          %{
-            "status" => :error,
-            "error" => error
+        conn
+        |> put_status(:created)
+        |> render("new_pokemon.json", %{pokemon: last_claim})
+
+      {:error, _} ->
+        conn
+        |> put_status(:not_found)
+        |> json(%{
+          data: %{
+            status: "error",
+            message: "Pokemon not found"
           }
-        )
+        })
     end
   end
 
   def feed_pokemon(conn, %{"id_pokemon" => pokemon_id}) do
     trainer = Guardian.Plug.current_resource(conn)
-    {:ok, pokemon, message} = Trainer.feed_pokemon(pokemon_id, trainer)
 
-    conn
-    |> json(%{
-      "status" => :ok,
-      "message" => message,
-      "data" => pokemon
-    })
+    case Trainer.feed_pokemon(pokemon_id, trainer) do
+      {:ok, pokemon, _message} ->
+        conn
+        |> put_status(:ok)
+        |> render("pokemon.json", %{trainer: pokemon})
+
+      _ ->
+        conn
+        |> put_status(404)
+        |> json(%{
+          data: %{
+            status: "error",
+            message: "Pokemon not found"
+          }
+        })
+    end
   end
 
   def my_pokemons(conn, _) do
@@ -86,10 +93,8 @@ defmodule PayfyWeb.Controllers.TrainerController do
     pokemons = Trainer.my_pokemons(trainer)
 
     conn
-    |> json(%{
-      "status" => :ok,
-      "data" => pokemons
-    })
+    |> put_status(200)
+    |> render("pokemons.json", %{pokemons: pokemons, message: "Your pokemons"})
   end
 
   def search_pokemon(conn, _) do
@@ -99,14 +104,9 @@ defmodule PayfyWeb.Controllers.TrainerController do
       {:ok, trainer} ->
         searched_pokemon = List.first(trainer.pokemons)
 
-        json(
-          conn,
-          %{
-            "status" => :ok,
-            "message" => "You find a wild #{searched_pokemon.name}",
-            "data" => searched_pokemon
-          }
-        )
+        conn
+        |> put_status(200)
+        |> render("new_pokemon.json", %{pokemon: searched_pokemon})
 
       {:error, error} ->
         json(

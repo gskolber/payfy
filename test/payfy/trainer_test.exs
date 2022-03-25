@@ -7,7 +7,6 @@ defmodule Payfy.TrainerTest do
   alias Payfy.Repo
   import Payfy.Factory
 
-
   import Assertions, only: [assert_lists_equal: 2]
 
   setup do
