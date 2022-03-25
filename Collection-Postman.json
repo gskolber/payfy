@@ -1,0 +1,187 @@
+{
+	"info": {
+		"_postman_id": "1acdf8c3-5f97-461c-ab40-6b70266dac0d",
+		"name": "Payfy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user\": {\r\n        \"username\":\"Kolber02\",\r\n        \"encrypted_password\":\"122121212\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/api/register",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\":\"Kolber02\",\r\n    \"password\":\"121212212\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:4000/api/login",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Claim Pokemon by name or ID - Requires Authorization",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJwYXlmeSIsImV4cCI6MTY1MDU4NzE1NywiaWF0IjoxNjQ4MTY3OTU3LCJpc3MiOiJwYXlmeSIsImp0aSI6ImE5NDdiOWFmLTNlYzQtNDhlMS04MDNmLTFmZTYzOTE3YzQ0NiIsIm5iZiI6MTY0ODE2Nzk1Niwic3ViIjoiMSIsInR5cCI6ImFjY2VzcyJ9.0Hxt9EDyQbC1sJ0wxROl1WqfVUMvi8fQ8fQWbOiLJf-402DseOks2Lrtz018kyaEhWHxjQpLhjWbDL0zVeSKzA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/auth/claim/bulbasaur",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"claim",
+						"bulbasaur"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Feed Pokemon by ID",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJwYXlmeSIsImV4cCI6MTY1MDU4NzE1NywiaWF0IjoxNjQ4MTY3OTU3LCJpc3MiOiJwYXlmeSIsImp0aSI6ImE5NDdiOWFmLTNlYzQtNDhlMS04MDNmLTFmZTYzOTE3YzQ0NiIsIm5iZiI6MTY0ODE2Nzk1Niwic3ViIjoiMSIsInR5cCI6ImFjY2VzcyJ9.0Hxt9EDyQbC1sJ0wxROl1WqfVUMvi8fQ8fQWbOiLJf-402DseOks2Lrtz018kyaEhWHxjQpLhjWbDL0zVeSKzA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/auth/feed/34",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"feed",
+						"34"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "My Pokemons",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJwYXlmeSIsImV4cCI6MTY1MDU5MTAxMSwiaWF0IjoxNjQ4MTcxODExLCJpc3MiOiJwYXlmeSIsImp0aSI6ImM5MzllZjNiLWMwNWQtNGIzNi04ZjI2LWMyZTI0ZjNmOTgzNiIsIm5iZiI6MTY0ODE3MTgxMCwic3ViIjoiMiIsInR5cCI6ImFjY2VzcyJ9.bAVxz_hNgZLT5_sxx_KRp633l8VuMVYf2h2nQ1J_T_qAsJciDt0mUxMb__WM6uniQJtfMHlh-bNiOI0dknBUSA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/auth/my_pokemons",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"my_pokemons"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJwYXlmeSIsImV4cCI6MTY1MDU4NzE1NywiaWF0IjoxNjQ4MTY3OTU3LCJpc3MiOiJwYXlmeSIsImp0aSI6ImE5NDdiOWFmLTNlYzQtNDhlMS04MDNmLTFmZTYzOTE3YzQ0NiIsIm5iZiI6MTY0ODE2Nzk1Niwic3ViIjoiMSIsInR5cCI6ImFjY2VzcyJ9.0Hxt9EDyQbC1sJ0wxROl1WqfVUMvi8fQ8fQWbOiLJf-402DseOks2Lrtz018kyaEhWHxjQpLhjWbDL0zVeSKzA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:4000/api/auth/search",
+					"host": [
+						"localhost"
+					],
+					"port": "4000",
+					"path": [
+						"api",
+						"auth",
+						"search"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
